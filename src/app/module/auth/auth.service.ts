@@ -9,6 +9,8 @@ import { jwtHelpers } from '../../../helpers/generateToken';
 import configEnv from '../../../config.env';
 import jwt from 'jsonwebtoken';
 import { User } from '../../../../generated/prisma';
+import  config  from '../../../config.env';
+
 
 
 
@@ -32,13 +34,14 @@ const jwtPayload = {
     role:userData.role,
     email:userData.email
 }
+
 const accessToken = jwtHelpers.generateToken(
     {
       email: userData.email,
       role: userData.role,
     },
-    process.env.jwt_access_secret as string,
-    process.env.jwt_access_expires_in as string
+     config.jwt_access_secret as string,
+  config.jwt_access_expires_in as string
   );
   
 
