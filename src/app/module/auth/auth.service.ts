@@ -40,13 +40,19 @@ const accessToken = jwtHelpers.generateToken(
       email: userData.email,
       role: userData.role,
     },
-     config.jwt_access_secret as string,
-  config.jwt_access_expires_in as string
+//      config.jwt_access_secret as string,
+//   config.jwt_access_expires_in as string
+process.env.JWT_ACCESS_SECRET as string,
+process.env.JWT_ACCESS_EXPIRES_IN as string
   );
   
 
-const refreshToken =jwtHelpers.generateToken(jwtPayload,config.jwt_access_secret as string,
-  config.jwt_access_expires_in as string);
+const refreshToken =jwtHelpers.generateToken(jwtPayload,
+    process.env.JWT_ACCESS_SECRET as string,
+process.env.JWT_ACCESS_EXPIRES_IN as string
+//     config.jwt_access_secret as string,
+//   config.jwt_access_expires_in as 
+);
 return {
     accessToken,
     refreshToken,
