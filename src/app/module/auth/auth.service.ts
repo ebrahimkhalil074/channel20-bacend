@@ -45,7 +45,8 @@ const accessToken = jwtHelpers.generateToken(
   );
   
 
-const refreshToken =jwtHelpers.generateToken(jwtPayload,process.env.jwt_refresh_secret as string,process.env.jwt_access_expires_in as string);
+const refreshToken =jwtHelpers.generateToken(jwtPayload,config.jwt_access_secret as string,
+  config.jwt_access_expires_in as string);
 return {
     accessToken,
     refreshToken,
@@ -65,7 +66,8 @@ const user = await prisma.user.findFirstOrThrow({
 const accessToken =jwtHelpers.generateToken(
     {email:user.email,
     role:user.role
-},process.env.jwt_access_secret as string,process.env.jwt_access_expires_in as string);
+},config.jwt_access_secret as string,
+  config.jwt_access_expires_in as string);
 
 console.log('ref',{accessToken})
 return {
@@ -109,11 +111,11 @@ const forgatedPassword =async(payload:any)=>{
         },
       })
     
-    const resetPasswordToken = jwtHelpers.generateToken(user,configEnv.jwt_reset_secret as string,process.env.jwt_access_expires_in as string)
+    const resetPasswordToken = jwtHelpers.generateToken(user,config.jwt_reset_secret as string,config.jwt_access_expires_in as string)
     
    console.log(resetPasswordToken)
 //http://localhost:3000/reset-pass?id=user.id&token=token  
-  const resetPasswordLink =`${configEnv.reset_pass_ui_link }id=${user.id}&token=${resetPasswordToken}`
+  const resetPasswordLink =`${config.reset_pass_ui_link }id=${user.id}&token=${resetPasswordToken}`
     
   console.log(resetPasswordLink)
   emailSender(user.email,
@@ -142,7 +144,7 @@ const user = await prisma.user.findFirstOrThrow({
 
 
         // validate token
-        const decodetToken = jwtHelpers.verifyToken(token,configEnv.jwt_reset_secret as string)
+        const decodetToken = jwtHelpers.verifyToken(token,config.jwt_reset_secret as string)
         console.log("decoded token",decodetToken)
         if(!decodetToken){
             throw new Error("Invalid token")
