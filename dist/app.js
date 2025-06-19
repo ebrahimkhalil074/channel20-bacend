@@ -14,7 +14,7 @@ app.use(express_1.default.json());
 app.use(express_1.default.urlencoded({ extended: true }));
 app.use((0, cookie_parser_1.default)());
 app.get("/", (req, res) => {
-    res.send({ message: "masjid management server is running!" });
+    res.send({ message: "channel twenty server is running!" });
 });
 app.use("/api/v1/", routes_1.default);
 app.use((err, req, res, next) => {

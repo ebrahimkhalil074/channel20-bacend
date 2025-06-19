@@ -37,8 +37,14 @@ const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     const accessToken = generateToken_1.jwtHelpers.generateToken({
         email: userData.email,
         role: userData.role,
-    }, process.env.jwt_access_secret, process.env.jwt_access_expires_in);
-    const refreshToken = generateToken_1.jwtHelpers.generateToken(jwtPayload, process.env.jwt_refresh_secret, process.env.jwt_access_expires_in);
+    }, 
+    //      config.jwt_access_secret as string,
+    //   config.jwt_access_expires_in as string
+    process.env.JWT_ACCESS_SECRET, process.env.JWT_ACCESS_EXPIRES_IN);
+    const refreshToken = generateToken_1.jwtHelpers.generateToken(jwtPayload, process.env.JWT_ACCESS_SECRET, process.env.JWT_ACCESS_EXPIRES_IN
+    //     config.jwt_access_secret as string,
+    //   config.jwt_access_expires_in as 
+    );
     return {
         accessToken,
         refreshToken,
@@ -54,7 +60,7 @@ const refreshToken = (token) => __awaiter(void 0, void 0, void 0, function* () {
     });
     const accessToken = generateToken_1.jwtHelpers.generateToken({ email: user.email,
         role: user.role
-    }, process.env.jwt_access_secret, process.env.jwt_access_expires_in);
+    }, config_env_1.default.jwt_access_secret, config_env_1.default.jwt_access_expires_in);
     console.log('ref', { accessToken });
     return {
         accessToken,
@@ -87,7 +93,7 @@ const forgatedPassword = (payload) => __awaiter(void 0, void 0, void 0, function
             email: payload.email,
         },
     });
-    const resetPasswordToken = generateToken_1.jwtHelpers.generateToken(user, config_env_1.default.jwt_reset_secret, process.env.jwt_access_expires_in);
+    const resetPasswordToken = generateToken_1.jwtHelpers.generateToken(user, config_env_1.default.jwt_reset_secret, config_env_1.default.jwt_access_expires_in);
     console.log(resetPasswordToken);
     //http://localhost:3000/reset-pass?id=user.id&token=token  
     const resetPasswordLink = `${config_env_1.default.reset_pass_ui_link}id=${user.id}&token=${resetPasswordToken}`;
