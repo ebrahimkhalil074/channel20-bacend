@@ -17,8 +17,8 @@ const catchAsync_1 = __importDefault(require("../../../shered/catchAsync"));
 const news_services_1 = require("./news.services");
 const sendRes_1 = __importDefault(require("../../../shered/sendRes"));
 const http_status_codes_1 = require("http-status-codes");
-const fileUploder_1 = require("../../../helpers/fileUploder");
 const pick_1 = __importDefault(require("../../../shered/pick"));
+const fileUploder_1 = require("../../../helpers/fileUploder");
 const createNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
     const data = JSON.parse(req.body.data);
     console.log(data);
@@ -26,7 +26,7 @@ const createNews = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
     console.log(user);
     const file = req.file;
     console.log({ file });
-    const image = yield fileUploder_1.fileUploder.uploadToCloudinary(file);
+    const image = yield fileUploder_1.fileUploader.uploadToCloudinary(file);
     console.log(image);
     const result = yield news_services_1.newsService.createNewsFromDB(data, image, user);
     (0, sendRes_1.default)(res, {

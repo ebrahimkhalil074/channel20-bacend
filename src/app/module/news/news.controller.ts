@@ -3,8 +3,9 @@ import catchAsync from "../../../shered/catchAsync";
 import { newsService } from './news.services';
 import sendResponse from '../../../shered/sendRes';
 import { StatusCodes } from 'http-status-codes';
-import { fileUploder } from '../../../helpers/fileUploder';
+
 import pick from '../../../shered/pick';
+import { fileUploader } from '../../../helpers/fileUploder';
 
 const createNews =catchAsync(async(req:Request& {user?:any},res:Response)=>{
     const data = JSON.parse(req.body.data);
@@ -15,7 +16,7 @@ const createNews =catchAsync(async(req:Request& {user?:any},res:Response)=>{
     console.log(user)
     const file =req.file
     console.log({file})
-    const image =await fileUploder.uploadToCloudinary(file);
+    const image =await fileUploader.uploadToCloudinary(file);
     console.log(image)
     const result = await newsService.createNewsFromDB(data,image,user);
     sendResponse(res,{
