@@ -18,13 +18,17 @@ const emailSender_1 = __importDefault(require("./emailSender"));
 const config_1 = __importDefault(require("../../../config"));
 const generateToken_1 = require("../../../helpers/generateToken");
 const config_env_1 = __importDefault(require("../../../config.env"));
+const apiError_1 = __importDefault(require("../../../errors/apiError"));
 const loginUser = (payload) => __awaiter(void 0, void 0, void 0, function* () {
     console.log(payload);
-    const userData = yield config_1.default.user.findFirstOrThrow({
+    const userData = yield config_1.default.user.findFirst({
         where: {
             email: payload.email,
         }
     });
+    if (!userData) {
+        throw new apiError_1.default(400, 'user not found');
+    }
     const isPasswordMatchd = bcryptjs_1.default.compareSync(payload.password, userData.password); // true
     console.log(isPasswordMatchd);
     if (!isPasswordMatchd) {

@@ -104,10 +104,21 @@ const getComment =catchAsync(async(req:Request,res:Response)=>{
     })
 
 })
-
+const updatedComment =catchAsync(async(req:Request,res:Response)=>{
+  const {id} =req.params;
+  const updatedData =req.body;
+const result = await commentService.updatedCommentIntoDB(id,updatedData)
+sendResponse(res,{
+      success:true,
+      statusCode: StatusCodes.OK,
+       message: 'all Likes rectrive sucessfully',
+       data: result
+    })
+})
 
 export const commentController ={
 createComment,
 getAllComment,
-getComment
+getComment,
+updatedComment
 }

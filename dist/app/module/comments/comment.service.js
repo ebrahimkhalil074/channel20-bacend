@@ -114,6 +114,15 @@ const getAllCommentIntoDB = (payload) => __awaiter(void 0, void 0, void 0, funct
     const result = yield config_1.default.like.findMany({});
     return result;
 });
+const updatedCommentIntoDB = (id, payload) => __awaiter(void 0, void 0, void 0, function* () {
+    const result = yield config_1.default.comment.update({
+        where: {
+            id
+        },
+        data: payload
+    });
+    return result;
+});
 const getCommentByIdIntoDB = (id) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield config_1.default.like.findFirstOrThrow({
         where: {
@@ -125,5 +134,6 @@ const getCommentByIdIntoDB = (id) => __awaiter(void 0, void 0, void 0, function*
 exports.commentService = {
     createCommentFromDB,
     getAllCommentIntoDB,
-    getCommentByIdIntoDB
+    getCommentByIdIntoDB,
+    updatedCommentIntoDB
 };

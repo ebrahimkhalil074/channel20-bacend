@@ -129,6 +129,16 @@ const getAllCommentIntoDB =async (payload:any)=>{
     const result =await prisma.like.findMany({})
     return result
 }
+const updatedCommentIntoDB =async (id:string,payload:any)=>{
+  
+    const result =await prisma.comment.update({
+      where:{
+        id
+      },
+      data:payload
+    })
+    return result
+}
 
 const getCommentByIdIntoDB =async (id:string)=>{
 const result = await prisma.like.findFirstOrThrow({
@@ -143,5 +153,6 @@ return result
 export const commentService ={
     createCommentFromDB,
     getAllCommentIntoDB,
-    getCommentByIdIntoDB
+    getCommentByIdIntoDB,
+    updatedCommentIntoDB
 }

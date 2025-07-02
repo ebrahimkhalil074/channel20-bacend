@@ -10,6 +10,7 @@ import configEnv from '../../../config.env';
 import jwt from 'jsonwebtoken';
 import { User } from '../../../../generated/prisma';
 import  config  from '../../../config.env';
+import apiError from '../../../errors/apiError';
 
 
 
@@ -18,12 +19,15 @@ import  config  from '../../../config.env';
 
 const loginUser = async(payload:any)=>{
     console.log(payload);
-const userData = await prisma.user.findFirstOrThrow({
+const userData = await prisma.user.findFirst({
     where:{
         email: payload.email,
        
     }
 })
+if (!userData) {
+    throw new apiError(400,'user not found')
+}
 const isPasswordMatchd= bcrypt.compareSync( payload.password,userData.password); // true
 console.log(isPasswordMatchd)
 

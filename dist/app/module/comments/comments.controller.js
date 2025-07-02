@@ -89,8 +89,20 @@ const getComment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, voi
         data: result
     });
 }));
+const updatedComment = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
+    const { id } = req.params;
+    const updatedData = req.body;
+    const result = yield comment_service_1.commentService.updatedCommentIntoDB(id, updatedData);
+    (0, sendRes_1.default)(res, {
+        success: true,
+        statusCode: http_status_codes_1.StatusCodes.OK,
+        message: 'all Likes rectrive sucessfully',
+        data: result
+    });
+}));
 exports.commentController = {
     createComment: exports.createComment,
     getAllComment,
-    getComment
+    getComment,
+    updatedComment
 };
