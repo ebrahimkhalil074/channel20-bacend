@@ -14,14 +14,34 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.videoService = void 0;
 const config_1 = __importDefault(require("../../../config"));
-const createVideoFromDB = (payload) => __awaiter(void 0, void 0, void 0, function* () {
+const createVideoFromDB = (payload, user) => __awaiter(void 0, void 0, void 0, function* () {
     const result = yield config_1.default.video.create({
-        data: payload
+        data: Object.assign(Object.assign({}, payload), { authorId: user === null || user === void 0 ? void 0 : user.id })
     });
     return result;
 });
-const getAllVideosIntoDB = () => __awaiter(void 0, void 0, void 0, function* () {
+const getAllVideosIntoDB = (payload, filteredData) => __awaiter(void 0, void 0, void 0, function* () {
+    let andConditions = [];
+    if (payload.searchTerm) {
+        andConditions.push({
+            OR: ['category', 'title'].map(field => ({
+                [field]: {
+                    contains: payload.searchTerm,
+                    mode: "insensitive",
+                }
+            }))
+        });
+    }
+    if (Object.keys(filteredData).length < 0) {
+        andConditions.push({
+            AND: Object.keys(filteredData).map(key => ({
+                [key]: filteredData[key]
+            }))
+        });
+    }
+    const whereConditions = andConditions.length > 0 ? { AND: andConditions } : {};
     const result = yield config_1.default.video.findMany({
+        where: whereConditions,
         include: {
             category: true,
             comments: true,

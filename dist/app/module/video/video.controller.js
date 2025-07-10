@@ -17,8 +17,11 @@ const http_status_codes_1 = require("http-status-codes");
 const catchAsync_1 = __importDefault(require("../../../shered/catchAsync"));
 const sendRes_1 = __importDefault(require("../../../shered/sendRes"));
 const video_services_1 = require("./video.services");
+const pick_1 = __importDefault(require("../../../shered/pick"));
 const createVideo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield video_services_1.videoService.createVideoFromDB(req.body);
+    const user = req.user;
+    console.log(user);
+    const result = yield video_services_1.videoService.createVideoFromDB(req.body, user);
     (0, sendRes_1.default)(res, {
         success: true,
         statusCode: http_status_codes_1.StatusCodes.OK,
@@ -27,7 +30,9 @@ const createVideo = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, vo
     });
 }));
 const getAllVideos = (0, catchAsync_1.default)((req, res) => __awaiter(void 0, void 0, void 0, function* () {
-    const result = yield video_services_1.videoService.getAllVideosIntoDB();
+    const query = req.query;
+    const filteredData = (0, pick_1.default)(query, ['category', 'searchTerm', 'createdAt']);
+    const result = yield video_services_1.videoService.getAllVideosIntoDB(query, filteredData);
     (0, sendRes_1.default)(res, {
         success: true,
         statusCode: http_status_codes_1.StatusCodes.OK,

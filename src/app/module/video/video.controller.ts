@@ -2,10 +2,13 @@ import { StatusCodes } from "http-status-codes";
 import catchAsync from "../../../shered/catchAsync";
 import sendResponse from "../../../shered/sendRes";
 import { videoService } from "./video.services";
+import { Request } from "express";
+import pick from "../../../shered/pick";
 
-const createVideo =catchAsync(async(req,res)=>{
-
-    const result =await videoService.createVideoFromDB(req.body);
+const createVideo =catchAsync(async(req:Request & {user?:any},res)=>{
+ const user =req.user
+    console.log(user)
+    const result =await videoService.createVideoFromDB(req.body,user);
     sendResponse(res,{
         success:true,
         statusCode:StatusCodes.OK,
@@ -14,8 +17,9 @@ const createVideo =catchAsync(async(req,res)=>{
     })
 })
 const getAllVideos =catchAsync(async(req,res)=>{
-
-    const result =await videoService.getAllVideosIntoDB();
+   const query =req.query
+    const filteredData = pick(query, [ 'category','searchTerm','createdAt' ]);
+    const result =await videoService.getAllVideosIntoDB(query,filteredData);
     sendResponse(res,{
         success:true,
         statusCode:StatusCodes.OK,
