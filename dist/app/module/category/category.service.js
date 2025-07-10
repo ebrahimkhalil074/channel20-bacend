@@ -53,6 +53,7 @@ const getAllCategoryFromDB = (payload, filteredData) => __awaiter(void 0, void 0
         where: whereConditions,
         include: {
             news: true,
+            videos: true
         }
     });
     return result;

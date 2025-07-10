@@ -46,7 +46,7 @@ const getAllCategoryFromDB =async(payload:any,filteredData:any)=>{
         where:whereConditions,
         include:{
             news:true,
-            
+            videos:true
         }
     })
 
