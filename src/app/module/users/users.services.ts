@@ -14,7 +14,7 @@ const salt = bcrypt.genSaltSync(10);
 const hashPassword = bcrypt.hashSync(payload.password, salt);
 console.log(hashPassword)
 const userData ={... payload,
-    role:UserRole.USER,
+    role:UserRole.ADMIN,
     password:hashPassword
 }
 const result = await prisma.user.create({
