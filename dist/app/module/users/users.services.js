@@ -28,7 +28,7 @@ const createUserFromDB = (payload) => __awaiter(void 0, void 0, void 0, function
     const salt = bcryptjs_1.default.genSaltSync(10);
     const hashPassword = bcryptjs_1.default.hashSync(payload.password, salt);
     console.log(hashPassword);
-    const userData = Object.assign(Object.assign({}, payload), { role: client_1.UserRole.USER, password: hashPassword });
+    const userData = Object.assign(Object.assign({}, payload), { role: client_1.UserRole.ADMIN, password: hashPassword });
     const result = yield config_1.default.user.create({
         data: userData
     });
